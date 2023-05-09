@@ -25,12 +25,22 @@ namespace FrigorificoTest.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+
         [HttpPost("AgregarVariosProductos")]
         public async Task<IActionResult> AddProductosAsync([FromBody] IEnumerable<ProductoDTO> productoDTOs)
         {
             var response = await _productoService.AddProductosAsync(productoDTOs);
             return StatusCode(response.StatusCode, response);
         }
+
+
+        [HttpPut("ActualizarProducto/{id}")]
+        public async Task<IActionResult> UpdateProductoAsync(int id, [FromBody] ProductoDTO productoDTO)
+        {
+            var response = await _productoService.UpdateStockProductoAsync(id, productoDTO);
+            return StatusCode(response.StatusCode, response);
+        }
+
 
         [HttpGet("ObtenerTodosLosProductos")]
         public async Task<IActionResult> GetAllProductosAsync()
@@ -39,10 +49,22 @@ namespace FrigorificoTest.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+
         [HttpGet("ObtenerProductoPorId")]
         public async Task<IActionResult> GetProductoByIdAsync(int id)
         {
             var response = await _productoService.GetProductoByIdAsync(id);
+            return StatusCode(response.StatusCode, response);
+        }
+
+
+
+
+
+        [HttpPost("AgregarVacasAFaena/{cantidadVacas}")]
+        public async Task<IActionResult> AddFaena(int cantidadVacas)
+        {
+            var response = await _productoService.AddFaena(cantidadVacas);
             return StatusCode(response.StatusCode, response);
         }
     }

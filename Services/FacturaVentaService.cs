@@ -39,7 +39,6 @@ namespace Services
             {
                 FechaVenta = facturaVentaDTO.FechaVenta,
                 IdFrigorifico = facturaVentaDTO.IdFrigorifico,
-                TipoDePago = (TipoDePago)facturaVentaDTO.TipoDePago,
                 Vendedor = facturaVentaDTO.Vendedor,
                 IdCliente = facturaVentaDTO.IdCliente
             };
@@ -51,7 +50,7 @@ namespace Services
                 var detalleFactura = new DetalleFactura
                 {
                     IdProducto = detalleFacturaDTO.IdProducto,
-                    CantidadPorKg = detalleFacturaDTO.CantidadPorKg,                    
+                    CantidadPorKg = detalleFacturaDTO.CantidadPorKg,
                     PrecioTotalProducto = detalleFacturaDTO.CantidadPorKg * producto.PrecioPorKg
                 };
 
@@ -65,18 +64,7 @@ namespace Services
             await _facturaVentaRepository.AddFacturaVentaAsync(facturaVenta);
             await _facturaVentaRepository.SaveChangesAsync();
 
-            if (facturaVenta.TipoDePago == TipoDePago.Contado)
-            {
-                frigorifico.Caja += facturaVenta.PrecioTotalVenta;
-            }
-            else if (facturaVenta.TipoDePago == TipoDePago.CuentaCorriente)
-            {
-                frigorifico.DeudasACobrar += facturaVenta.PrecioTotalVenta;
-                cliente.SaldoACobrar += facturaVenta.PrecioTotalVenta;
-            }
-
-            await _frigorificoRepository.SaveChangesAsync();
-            await _clienteRepository.SaveChangesAsync();
+            await ManejarTipoDePagoAsync(facturaVenta.TipoDePago, frigorifico, cliente, facturaVenta.PrecioTotalVenta);
 
             var response = new ResponseDTO
             {
@@ -87,6 +75,32 @@ namespace Services
             };
 
             return response;
+        }
+
+
+
+
+
+
+
+
+        private async Task ManejarTipoDePagoAsync(TipoDePago tipoDePago, Frigorifico frigorifico, Cliente cliente, decimal precioTotalVenta)
+        {
+            switch (tipoDePago)
+            {
+                case TipoDePago.Contado:
+                    frigorifico.Caja += precioTotalVenta;
+                    break;
+                case TipoDePago.CuentaCorriente:
+                    frigorifico.DeudasACobrar += precioTotalVenta;
+                    cliente.SaldoACobrar += precioTotalVenta;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(tipoDePago), tipoDePago, "Tipo de pago inválido");
+            }
+
+            await _frigorificoRepository.SaveChangesAsync();
+            await _clienteRepository.SaveChangesAsync();
         }
 
     }

@@ -32,6 +32,12 @@ namespace Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task UpdateStockProductoAsync(Producto producto)
+        {
+            _context.Set<Producto>().Update(producto);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<Producto>> GetAllProductosAsync()
         {
             return await _context.Productos.ToListAsync();

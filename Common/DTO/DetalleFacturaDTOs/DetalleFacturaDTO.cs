@@ -14,6 +14,7 @@ namespace Common.DTO.DetalleFacturaDTOs
     {
         [JsonIgnore]
         public int Id { get; set; }
+        [JsonIgnore]
         public int IdFacturaVenta { get; set; }
         public int IdProducto { get; set; }
         public int CantidadPorKg { get; set; }

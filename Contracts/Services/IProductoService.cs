@@ -14,7 +14,14 @@ namespace Contracts.Services
     {
         Task<ResponseDTO> AddProductoAsync(ProductoDTO productoDTO);
         Task<ResponseDTO> AddProductosAsync(IEnumerable<ProductoDTO> productoDTOs);
+        Task<ResponseDTO> UpdateStockProductoAsync(int id, ProductoDTO productoDTO);
         Task<ResponseDTO> GetAllProductosAsync();
         Task<ResponseDTO> GetProductoByIdAsync(int id);
+
+
+
+
+
+        Task<ResponseDTO> AddFaena(int cantidadVacas);
     }
 }

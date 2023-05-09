@@ -30,7 +30,6 @@ namespace Services
             {
                 var detalleFactura = new DetalleFactura
                 {
-                    IdFacturaVenta = idFacturaVenta,
                     IdProducto = detalleFacturaDTO.IdProducto,
                     CantidadPorKg = detalleFacturaDTO.CantidadPorKg,
                     PrecioTotalProducto = detalleFacturaDTO.PrecioTotalProducto

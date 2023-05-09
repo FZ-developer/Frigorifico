@@ -12,6 +12,7 @@ namespace Contracts.Repositories
     {
         Task AddProductoAsync(Producto producto);
         Task AddProductosAsync(IEnumerable<Producto> productos);
+        Task UpdateStockProductoAsync(Producto producto);
         Task<IEnumerable<Producto>> GetAllProductosAsync();
         Task<Producto> GetProductoByIdAsync(int id);
 
